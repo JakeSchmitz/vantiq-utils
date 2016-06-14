@@ -22,19 +22,18 @@ popd # /
 # We will need to install and setup h2
 # we're going to install h2 into /usr/share
 pushd /usr/share
-# Download H2
-# curl http://www.h2database.com/h2-2016-05-26.zip
-# Unzip H2
-# unzip h2-2016-05-26.zip
-# mv h2-2016-05-26 h2
-# Download and unzip H2GIS, which is required for spatial support
-# This should include H2 itself
+# install h2gis, which includes h2 and it's dependencies
 wget https://github.com/orbisgis/h2gis/releases/download/v1.2.3/h2-dist-1.2.3-bin.zip -O h2gis.zip
 unzip h2gis.zip
 
 # Get the Vantiq server
 git clone https://$USRNAME:$PASSWD@github.com/Vantiq/ag2rs.git
+# Get Vantiq UI
+git clone https://$USRNAME:$PASSWD@github.com/Vantiq/iqtools.git
+# Create symbolic link in Server that points to UI
+ln -s ag2rs/iqtools iqtools
 cd ag2rs
+# Fetch and switch to branch we want to deploy
 git fetch
 git checkout jbs-geojson-h2
 ./gradlew clean build -x test
